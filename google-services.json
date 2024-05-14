@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "709034714107",
+    "project_id": "notificationapp-bfdcf",
+    "storage_bucket": "notificationapp-bfdcf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709034714107:android:87f3df66cabd4e3264e15e",
+        "android_client_info": {
+          "package_name": "com.wings.MyProjecte"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC_5Poo-fr4MCjG_eFlL70F1p5B3wdNOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
