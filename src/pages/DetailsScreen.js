@@ -11,13 +11,14 @@ import {
   View,
 } from "react-native";
 import { confirmCommande } from "../services/ServiceData";
+import StatusMessage from "../components/statusMessage";
 
 const DetailsScreen = ({ route }) => {
-  const { name, image, id, price } = route.params;
+  const { name, image, id, price, status } = route.params;
   const [selectedItem, setSelectedItem] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [comment, setComment] = useState("");
-
+  const [Status, SetStatus] = useState(status);
   const longText =
     " Cephalexin is generally prescribed to treat bacterial infections.Cephalexin is generally prescribed to treat bacterial infections.Cephalexin is generally prescribed to treat bacterial infections. It is used to treat various infections, It is used to treat various infections, It is used to treat various infections, including respiratory tract infections...";
 
@@ -49,6 +50,13 @@ const DetailsScreen = ({ route }) => {
   const handleConfirm = () => {
     confirmCommande(id, comment);
     setModalVisible(false);
+    SetStatus(1);
+  };
+
+  const handleRefuse = () => {
+    // Add logic to handle refusal
+    setModalVisible(false);
+    SetStatus(4);
   };
 
   return (
@@ -251,7 +259,7 @@ const DetailsScreen = ({ route }) => {
           </View>
         </View>
       </Modal>
-      {!modalVisible && (
+      {Status === 5 && !modalVisible && (
         <View
           style={{
             position: "absolute",
@@ -277,7 +285,7 @@ const DetailsScreen = ({ route }) => {
             <Text style={{ color: "#fff", fontSize: 18 }}>Confirm</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => confirmCommande(id)}
+            onPress={handleRefuse}
             style={{
               height: 50,
               backgroundColor: "red",
@@ -291,6 +299,11 @@ const DetailsScreen = ({ route }) => {
           </TouchableOpacity>
         </View>
       )}
+
+      {Status === 1 && <StatusMessage message="En attend" color="red" />}
+      {Status === 4 && <StatusMessage message="Refused" color="red" />}
+      {Status === 2 && <StatusMessage message="Collecté" color="red" />}
+      {Status === 3 && <StatusMessage message="livre" color="red" />}
     </View>
   );
 };

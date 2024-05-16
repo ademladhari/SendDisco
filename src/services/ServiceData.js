@@ -9,12 +9,13 @@ export const data = async () => {
     throw error; // Re-throw the error to handle it elsewhere if needed
   }
 };
-export const confirmCommande = async (commande_id) => {
+export const confirmCommande = async (commande_id, comment) => {
   try {
     const response = await getApi.post("/commandes/setLivreur", {
       commande_id: `${commande_id}`,
       statut_id: "6",
       livreur_id: "1",
+      commentaire: `${comment}`,
     });
 
     return response.data; // Assuming you want to return the data from the response

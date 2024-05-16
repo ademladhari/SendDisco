@@ -65,6 +65,7 @@ export default function DeliveryPage() {
                     image: require("../../assets/phone-call.png"),
                     description: medication.description,
                     price: medication.total,
+                    status: medication.statut_id,
                   })
                 }
                 style={styles.cardContainer}
