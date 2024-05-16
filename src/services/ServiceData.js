@@ -23,3 +23,17 @@ export const confirmCommande = async (commande_id) => {
     throw error; // Re-throw the error to handle it elsewhere if needed
   }
 };
+export const refuseCommande = async (commande_id) => {
+  try {
+    const response = await getApi.post("/commandes/setLivreur", {
+      commande_id: `${commande_id}`,
+      statut_id: "4",
+      livreur_id: "1",
+    });
+
+    return response.data; // Assuming you want to return the data from the response
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error; // Re-throw the error to handle it elsewhere if needed
+  }
+};

@@ -6,7 +6,6 @@ import { getUserData } from "./ActionUser";
 import * as Device from "expo-device";
 import { useRef, useState } from "react";
 
-import { registerForPushNotificationsAsync } from "../../../App";
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";

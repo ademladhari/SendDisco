@@ -1,21 +1,26 @@
+import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
 import {
   Button,
   Image,
+  Modal,
   ScrollView,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { confirmCommande } from "../services/ServiceData";
+
 const DetailsScreen = ({ route }) => {
   const { name, image, id, price } = route.params;
   const [selectedItem, setSelectedItem] = useState(null);
-  console.log(price);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [comment, setComment] = useState("");
+
   const longText =
     " Cephalexin is generally prescribed to treat bacterial infections.Cephalexin is generally prescribed to treat bacterial infections.Cephalexin is generally prescribed to treat bacterial infections. It is used to treat various infections, It is used to treat various infections, It is used to treat various infections, including respiratory tract infections...";
+
   const TruncatedText = ({ text, maxLength }) => {
     const [expanded, setExpanded] = useState(false);
 
@@ -40,25 +45,27 @@ const DetailsScreen = ({ route }) => {
       </View>
     );
   };
+
+  const handleConfirm = () => {
+    confirmCommande(id, comment);
+    setModalVisible(false);
+  };
+
   return (
-    <>
-      <View
-        className="  mt-5 h-[70%] ml-3  rounded-t-3xl   "
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-      >
-        <View className="">
+    <View style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View className="mt-5 ml-3 rounded-t-3xl">
           <Image
             className="mx-auto mt-3 w-[210px] h-[250px] rounded-xl"
             source={require("../../assets/test.png")}
           />
           <Text className="ml-1 text-2xl mt-14">Cephlexin</Text>
-          <Text className=" text-lg ">Capsules USP</Text>
+          <Text className="text-lg">Capsules USP</Text>
           <TruncatedText text={longText} maxLength={150} />
           <View>
-            <View className=" flex  flex-row justify-between">
-              <Text className="text-xl font-light ">Availability</Text>
-              <Text className="text-xl mr-3 ">{price} TND</Text>
+            <View className="flex flex-row justify-between">
+              <Text className="text-xl font-light">Availability</Text>
+              <Text className="text-xl mr-3">{price} TND</Text>
             </View>
             <View
               style={{
@@ -175,15 +182,116 @@ const DetailsScreen = ({ route }) => {
             </View>
           </View>
         </View>
-      </View>
-      {console.log(id)}
-      <TouchableOpacity
-        onPress={() => confirmCommande(id)}
-        className="absolute bottom-2 inset-x-0 h-10 bg-blue-500 w-[90%] ml-4  rounded-lg  justify-center items-center"
+      </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
       >
-        <Text className="text-center text-white text-2xl">Confirm</Text>
-      </TouchableOpacity>
-    </>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            height: "28%",
+          }}
+        >
+          <View
+            style={{
+              margin: 20,
+              backgroundColor: "white",
+              borderRadius: 20,
+              width: "90%",
+              height: "97%",
+              padding: 50,
+              alignItems: "center",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5,
+            }}
+          >
+            <Text style={{ marginBottom: 15, textAlign: "center" }}>
+              Comment
+            </Text>
+            <TextInput
+              style={{
+                height: 40,
+                borderColor: "gray",
+                borderWidth: 1,
+                width: "100%",
+                marginBottom: 15,
+                paddingLeft: 10,
+              }}
+              placeholder="Enter your comment"
+              onChangeText={setComment}
+              value={comment}
+            />
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#2196F3",
+                borderRadius: 20,
+                padding: 10,
+                elevation: 2,
+              }}
+              onPress={handleConfirm}
+            >
+              <Text style={{ color: "white" }}>Confirm</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {!modalVisible && (
+        <View
+          style={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: 10,
+            backgroundColor: "#fff", // Ensure the background color to avoid content being hidden
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={{
+              height: 50,
+              backgroundColor: "green",
+              width: "45%",
+              borderRadius: 10,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ color: "#fff", fontSize: 18 }}>Confirm</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => confirmCommande(id)}
+            style={{
+              height: 50,
+              backgroundColor: "red",
+              width: "45%",
+              borderRadius: 10,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ color: "#fff", fontSize: 18 }}>Refuse</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </View>
   );
 };
 
